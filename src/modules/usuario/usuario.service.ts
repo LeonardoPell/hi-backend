@@ -35,7 +35,9 @@ export class UsuarioService {
 
   async findAll(): Promise<RetornoApi> {
     try {
-      const usuarios = await this.usuarioEntity.findAll();
+      const usuarios = await this.usuarioEntity.findAll({
+        attributes: { exclude: ['senha'] },
+      });
 
       if (!usuarios.length) {
         return notFoundReturn('Nenhum usuario foi encontrado no sistema!');
