@@ -10,10 +10,12 @@ import {
   ValidationPipe,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -31,6 +33,7 @@ export class UsuarioController {
     return usuario;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async findAll() {
     const usuarios = await this.usuarioService.findAll();
@@ -42,6 +45,7 @@ export class UsuarioController {
     return usuarios;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   async findById(@Param('id') id: string) {
     const usuario = await this.usuarioService.findById(+id);
@@ -53,6 +57,7 @@ export class UsuarioController {
     return usuario;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Patch(':id')
   async update(
@@ -68,6 +73,7 @@ export class UsuarioController {
     return usuario;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const usuario = await this.usuarioService.remove(+id);

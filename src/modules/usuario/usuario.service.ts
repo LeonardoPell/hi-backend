@@ -11,6 +11,8 @@ import { notFoundReturn } from 'src/global/functions/not-found.model';
 import { foundReturn } from 'src/global/functions/found.model';
 import { updatedReturn } from 'src/global/functions/updated.model';
 import { removedReturn } from 'src/global/functions/removed.model';
+import * as bcrypt from 'bcrypt';
+import { AuthDto } from 'src/auth/auth.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -22,6 +24,7 @@ export class UsuarioService {
   async create(createUsuarioDto: CreateUsuarioDto): Promise<RetornoApi> {
     createUsuarioDto.nascimento = moment(createUsuarioDto.nascimento).format();
     createUsuarioDto.iniciacao = moment(createUsuarioDto.iniciacao).format();
+    createUsuarioDto.senha = await bcrypt.hashSync(createUsuarioDto.senha, 10);
     try {
       const usuario = await this.usuarioEntity.create(createUsuarioDto as any);
 
@@ -90,6 +93,20 @@ export class UsuarioService {
       return removedReturn(`Usuario de id ${id} foi deletado com sucesso!`);
     } catch (error) {
       return errorTryCatchReturn(error);
+    }
+  }
+
+  async findByPayload(payload: AuthDto) {
+    try {
+      const usuario = await this.usuarioEntity.findOne({
+        where: {
+          cim: payload.cim,
+        },
+      });
+
+      return usuario;
+    } catch (error) {
+      return undefined;
     }
   }
 }
