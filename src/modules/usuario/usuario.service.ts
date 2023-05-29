@@ -12,7 +12,6 @@ import { foundReturn } from 'src/global/functions/found.model';
 import { updatedReturn } from 'src/global/functions/updated.model';
 import { removedReturn } from 'src/global/functions/removed.model';
 import * as bcrypt from 'bcrypt';
-import { AuthDto } from 'src/auth/auth.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -96,11 +95,11 @@ export class UsuarioService {
     }
   }
 
-  async findByPayload(payload: AuthDto) {
+  async findByCim(cim: string) {
     try {
       const usuario = await this.usuarioEntity.findOne({
         where: {
-          cim: payload.cim,
+          cim,
         },
       });
 
