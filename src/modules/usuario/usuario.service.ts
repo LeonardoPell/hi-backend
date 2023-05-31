@@ -37,6 +37,7 @@ export class UsuarioService {
     try {
       const usuarios = await this.usuarioEntity.findAll({
         attributes: { exclude: ['senha'] },
+        order: [['nome', 'asc']],
       });
 
       if (!usuarios.length) {
@@ -72,6 +73,13 @@ export class UsuarioService {
     const usuario = await this.findById(id);
     if (usuario.status !== HttpStatus.OK) {
       return usuario;
+    }
+
+    if (updateUsuarioDto?.senha) {
+      updateUsuarioDto.senha = await bcrypt.hashSync(
+        updateUsuarioDto.senha,
+        10,
+      );
     }
 
     try {
