@@ -1,16 +1,19 @@
 import { JwtService } from '@nestjs/jwt';
 import {
+  HttpStatus,
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsuarioService } from 'src/modules/usuario/usuario.service';
 import { compareSync } from 'bcrypt';
+import { PalavraSemestralService } from 'src/modules/palavra_semestral/palavra_semestral.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly _usuarioService: UsuarioService,
+    private readonly _palavraSemestralService: PalavraSemestralService,
     private readonly _jwtService: JwtService,
   ) {}
 
@@ -24,7 +27,7 @@ export class AuthService {
     };
   }
 
-  async validateUser(cim: string, senha: string, palavra_chave: string) {
+  async validateUser(cim: string, senha: string, palavra_semestral: string) {
     const usuario = await this._usuarioService.findByCim(cim);
 
     if (!usuario) {
@@ -37,6 +40,14 @@ export class AuthService {
 
     if (!senhaValida) {
       throw new UnauthorizedException('Senha incorreta!');
+    }
+
+    const palavra = await this._palavraSemestralService.findByWord(palavra_semestral);
+
+    if(palavra.status !== HttpStatus.OK){
+      throw new NotFoundException(
+        `Palavra chave incorreta`,
+      );
     }
 
     return usuario;

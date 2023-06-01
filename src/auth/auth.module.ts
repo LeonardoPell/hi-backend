@@ -6,11 +6,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { PalavraSemestralModule } from 'src/modules/palavra_semestral/palavra_semestral.module';
 
 @Module({
   imports: [
     PassportModule,
     UsuarioModule,
+    PalavraSemestralModule,
     JwtModule.register({
       privateKey: process.env.JWT,
       signOptions: { expiresIn: '7d' },

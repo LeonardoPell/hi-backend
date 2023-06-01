@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { PalavraSemestral } from 'src/modules/palavra_semestral/entities/palavra_semestral.entity';
 import { Usuario } from 'src/modules/usuario/entities/usuario.entity';
 
 @Module({
@@ -17,7 +18,7 @@ import { Usuario } from 'src/modules/usuario/entities/usuario.entity';
       define: {
         timestamps: false,
       },
-      models: [Usuario],
+      models: [Usuario,PalavraSemestral],
     }),
   ],
 })
