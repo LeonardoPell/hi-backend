@@ -29,6 +29,22 @@ export class PalavraSemestralService {
     }
   }
 
+  async find(): Promise<RetornoApi> {
+    try {
+      const palavraSemestral = await this.palavraSemestral.findOne();
+
+      if (!palavraSemestral) {
+        return notFoundReturn(
+          `Nenhuma palavra foi encontrada no sistema!`,
+        );
+      }
+
+      return foundReturn('Palavra encontrada com suecesso!', palavraSemestral);
+    } catch (error) {
+      return errorTryCatchReturn(error);
+    }
+  }
+
   async findByWord(palavra: string): Promise<RetornoApi> {
     try {
       const palavraSemestral = await this.palavraSemestral.findOne({

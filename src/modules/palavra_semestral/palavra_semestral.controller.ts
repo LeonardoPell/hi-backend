@@ -20,6 +20,17 @@ export class PalavraSemestralController {
     return palavraSemestral;
   }
 
+  @Get()
+  async find() {
+    const palavraSemestral = await this.palavraSemestralService.find();
+
+    if (palavraSemestral.status !== HttpStatus.OK) {
+      throw new HttpException(palavraSemestral, palavraSemestral.status);
+    }
+
+    return palavraSemestral;
+  }
+
   @Get(':palavra')
   async findByWord(@Param('palavra') palavra: string) {
     const palavraSemestral = await this.palavraSemestralService.findByWord(palavra);
