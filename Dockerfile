@@ -9,8 +9,6 @@ run npm install -g dotenv-cli
 
 RUN npm install --quiet --no-optional --no-fund --loglevel=error
 
-RUN npm run build
-
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["npm","run","start:prod"]
