@@ -1,4 +1,11 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  Model,
+  Table,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { NivelObreiro } from 'src/modules/nivel-obreiro/entities/nivel-obreiro.entity';
 
 @Table({ tableName: 'hi_usuarios' })
 export class Usuario extends Model<Usuario> {
@@ -82,4 +89,11 @@ export class Usuario extends Model<Usuario> {
     allowNull: true,
   })
   atualizado_em: Date;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  @ForeignKey(() => NivelObreiro)
+  nivel_obreiro: number;
 }

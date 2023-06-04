@@ -49,4 +49,8 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   @IsString()
   iniciacao: string;
+
+  @IsOptional()
+  @IsNumber()
+  nivel_obreiro: number;
 }
