@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateReuniaoDto } from './dto/create-reuniao.dto';
 import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -8,6 +8,7 @@ import { createdReturn } from 'src/global/functions/created.model';
 import { errorTryCatchReturn } from 'src/global/functions/error-try-catch.model';
 import { foundReturn } from 'src/global/functions/found.model';
 import { notFoundReturn } from 'src/global/functions/not-found.model';
+import { updatedReturn } from 'src/global/functions/updated.model';
 
 @Injectable()
 export class ReunioesService {
@@ -58,8 +59,23 @@ export class ReunioesService {
     }
   }
 
-  update(id: number, updateReunioeDto: UpdateReuniaoDto) {
-    return `This action updates a #${id} reunioe`;
+  async update(id: number, updateReuniaoDto: UpdateReuniaoDto) {
+    const evento = await this.findOne(id);
+    if (evento.status !== HttpStatus.OK) {
+      return evento;
+    }
+
+    try {
+      evento.dados.set(updateReuniaoDto);
+      await evento.dados.save();
+
+      return updatedReturn(
+        `Evento de id #${id} editado com sucesso`,
+        evento.dados,
+      );
+    } catch (error) {
+      return errorTryCatchReturn(error);
+    }
   }
 
   remove(id: number) {

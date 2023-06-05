@@ -47,8 +47,14 @@ export class ReunioesController {
   @UseGuards(AuthGuard('jwt'))
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReuniaoDto: UpdateReuniaoDto) {
-    return this.reunioesService.update(+id, updateReuniaoDto);
+  async update(@Param('id') id: string, @Body() updateReuniaoDto: UpdateReuniaoDto) {
+    const reuniao = await this.reunioesService.update(+id, updateReuniaoDto);
+
+    if (reuniao.status !== HttpStatus.OK) {
+      throw new HttpException(reuniao, reuniao.status);
+    }
+
+    return reuniao;
   }
 
   @UseGuards(AuthGuard('jwt'))
