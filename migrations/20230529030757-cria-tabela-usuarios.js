@@ -22,10 +22,6 @@ module.exports = {
         type: Sequelize.STRING(150),
         allowNull: false,
       },
-      codigo_obreiro: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-      },
       telefone: {
         type: Sequelize.STRING(50),
         allowNull: false,
@@ -49,6 +45,11 @@ module.exports = {
       iniciacao: {
         type: Sequelize.DATE,
         allowNull: false,
+      },
+      ativo: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
       criado_em: {
         type: Sequelize.DATE,

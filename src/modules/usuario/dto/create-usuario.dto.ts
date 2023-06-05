@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsOptional,
   IsNumber,
+  IsBoolean,
 } from 'class-validator';
 export class CreateUsuarioDto {
   @IsOptional()
@@ -21,10 +22,6 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   @IsString()
   cim: string;
-
-  @IsNotEmpty()
-  @IsString()
-  codigo_obreiro: string;
 
   @IsNotEmpty()
   @IsString()
@@ -49,6 +46,10 @@ export class CreateUsuarioDto {
   @IsNotEmpty()
   @IsString()
   iniciacao: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  ativo: string;
 
   @IsOptional()
   @IsNumber()
