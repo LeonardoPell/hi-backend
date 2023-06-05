@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { NivelObreiro } from 'src/modules/nivel-obreiro/entities/nivel-obreiro.entity';
 import { PalavraSemestral } from 'src/modules/palavra_semestral/entities/palavra_semestral.entity';
+import { Reuniao } from 'src/modules/reunioes/entities/reuniao.entity';
 import { Usuario } from 'src/modules/usuario/entities/usuario.entity';
 
 @Module({
@@ -19,7 +20,7 @@ import { Usuario } from 'src/modules/usuario/entities/usuario.entity';
       define: {
         timestamps: false,
       },
-      models: [Usuario, PalavraSemestral, NivelObreiro],
+      models: [Usuario, PalavraSemestral, NivelObreiro, Reuniao],
     }),
   ],
 })
