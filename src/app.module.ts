@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { PalavraSemestralModule } from './modules/palavra_semestral/palavra_semestral.module';
 import { NivelObreiroModule } from './modules/nivel-obreiro/nivel-obreiro.module';
 import { ReunioesModule } from './modules/reunioes/reunioes.module';
+import { PresencaReuniaoModule } from './modules/presenca-reuniao/presenca-reuniao.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { ReunioesModule } from './modules/reunioes/reunioes.module';
     AuthModule,
     PalavraSemestralModule,
     NivelObreiroModule,
-    ReunioesModule
+    ReunioesModule,
+    PresencaReuniaoModule
   ],
   controllers: [AppController],
   providers: [AppService],

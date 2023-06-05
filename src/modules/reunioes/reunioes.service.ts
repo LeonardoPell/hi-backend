@@ -9,17 +9,23 @@ import { errorTryCatchReturn } from 'src/global/functions/error-try-catch.model'
 import { foundReturn } from 'src/global/functions/found.model';
 import { notFoundReturn } from 'src/global/functions/not-found.model';
 import { updatedReturn } from 'src/global/functions/updated.model';
+import { PresencaReuniaoService } from '../presenca-reuniao/presenca-reuniao.service';
 
 @Injectable()
 export class ReunioesService {
   constructor(
     @InjectModel(Reuniao)
     private readonly reuniaoEntity: typeof Reuniao,
+    private readonly _presencaReuniaoService: PresencaReuniaoService
   ) {}
 
   async create(createReuniaoDto: CreateReuniaoDto): Promise<RetornoApi> {
     try {
       const reuniao = await this.reuniaoEntity.create(createReuniaoDto as any);
+      await this._presencaReuniaoService.create({
+        id_reuniao: reuniao.id,
+        usuarios_presentes: []
+      });
 
       return createdReturn('Reunião cadastrada com sucesso!', reuniao);
     } catch (error) {
