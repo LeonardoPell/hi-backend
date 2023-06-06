@@ -36,12 +36,6 @@ export class Usuario extends Model<Usuario> {
   cim: string;
 
   @Column({
-    type: DataType.STRING(20),
-    allowNull: false,
-  })
-  codigo_obreiro: string;
-
-  @Column({
     type: DataType.STRING(50),
     allowNull: false,
   })
@@ -76,6 +70,12 @@ export class Usuario extends Model<Usuario> {
     allowNull: false,
   })
   iniciacao: Date;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+  })
+  ativo: boolean;
 
   @Column({
     type: DataType.DATE,
