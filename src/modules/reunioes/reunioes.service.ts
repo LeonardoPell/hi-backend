@@ -16,15 +16,16 @@ export class ReunioesService {
   constructor(
     @InjectModel(Reuniao)
     private readonly reuniaoEntity: typeof Reuniao,
-    private readonly _presencaReuniaoService: PresencaReuniaoService
+    private readonly _presencaReuniaoService: PresencaReuniaoService,
   ) {}
 
   async create(createReuniaoDto: CreateReuniaoDto): Promise<RetornoApi> {
+    createReuniaoDto.reuniao_aconteceu = false;
     try {
       const reuniao = await this.reuniaoEntity.create(createReuniaoDto as any);
       await this._presencaReuniaoService.create({
         id_reuniao: reuniao.id,
-        usuarios_presentes: []
+        usuarios_presentes: [],
       });
 
       return createdReturn('Reunião cadastrada com sucesso!', reuniao);
@@ -38,9 +39,7 @@ export class ReunioesService {
       const reunioes = await this.reuniaoEntity.findAll();
 
       if (!reunioes.length) {
-        return notFoundReturn(
-          `Nenhuma reunião foi encontrada no sistema!`,
-        );
+        return notFoundReturn(`Nenhuma reunião foi encontrada no sistema!`);
       }
 
       return foundReturn('Reuniões encontradas com suecesso!', reunioes);
@@ -54,9 +53,7 @@ export class ReunioesService {
       const reuniao = await this.reuniaoEntity.findByPk(id);
 
       if (!reuniao) {
-        return notFoundReturn(
-          `Nenhuma reunião foi encontrada no sistema!`,
-        );
+        return notFoundReturn(`Nenhuma reunião foi encontrada no sistema!`);
       }
 
       return foundReturn(`Reunião ${id} encontrada com suecesso!`, reuniao);

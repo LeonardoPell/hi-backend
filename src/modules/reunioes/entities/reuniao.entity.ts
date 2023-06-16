@@ -27,4 +27,10 @@ export class Reuniao extends Model<Reuniao> {
     allowNull: false,
   })
   data_hora_reuniao: Date;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+  })
+  reuniao_aconteceu: boolean;
 }
