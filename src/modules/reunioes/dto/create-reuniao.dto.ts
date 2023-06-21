@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateReuniaoDto {
   @IsOptional()
@@ -16,5 +22,8 @@ export class CreateReuniaoDto {
   @IsOptional()
   @IsString()
   data_hora_reuniao?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  reuniao_aconteceu?: boolean;
 }
-  

@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, UseGuards, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  UseGuards,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ReunioesService } from './reunioes.service';
 import { CreateReuniaoDto } from './dto/create-reuniao.dto';
 import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
@@ -47,7 +60,10 @@ export class ReunioesController {
   @UseGuards(AuthGuard('jwt'))
   @UsePipes(new ValidationPipe({ whitelist: true }))
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateReuniaoDto: UpdateReuniaoDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateReuniaoDto: UpdateReuniaoDto,
+  ) {
     const reuniao = await this.reunioesService.update(+id, updateReuniaoDto);
 
     if (reuniao.status !== HttpStatus.OK) {
@@ -61,5 +77,18 @@ export class ReunioesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.reunioesService.remove(+id);
+  }
+
+  @Get('relatorio/dados/:anoDesejado')
+  async relatorioPresencaDados(@Param('anoDesejado') anoDesejado: string) {
+    const dadosReunioes = await this.reunioesService.relatorioPresencaDados(
+      anoDesejado,
+    );
+
+    if (dadosReunioes.status !== HttpStatus.OK) {
+      throw new HttpException(dadosReunioes, dadosReunioes.status);
+    }
+
+    return dadosReunioes;
   }
 }

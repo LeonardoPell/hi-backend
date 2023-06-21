@@ -9,10 +9,10 @@ import { notFoundReturn } from 'src/global/functions/not-found.model';
 import { foundReturn } from 'src/global/functions/found.model';
 import { updatedReturn } from 'src/global/functions/updated.model';
 import * as moment from 'moment';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class PresencaReuniaoService {
-
   constructor(
     @InjectModel(PresencaReuniao)
     private readonly presencaReuniaoEntity: typeof PresencaReuniao,
@@ -20,9 +20,14 @@ export class PresencaReuniaoService {
 
   async create(createPresencaReuniaoDto: CreatePresencaReuniaoDto) {
     try {
-      const presenca = await this.presencaReuniaoEntity.create(createPresencaReuniaoDto as any);
+      const presenca = await this.presencaReuniaoEntity.create(
+        createPresencaReuniaoDto as any,
+      );
 
-      return createdReturn('Lista de presença cadastrada com sucesso!', presenca);
+      return createdReturn(
+        'Lista de presença cadastrada com sucesso!',
+        presenca,
+      );
     } catch (error) {
       return errorTryCatchReturn(error);
     }
@@ -32,8 +37,8 @@ export class PresencaReuniaoService {
     try {
       const presenca = await this.presencaReuniaoEntity.findOne({
         where: {
-          id_reuniao
-        }
+          id_reuniao,
+        },
       });
 
       if (!presenca) {
@@ -42,13 +47,19 @@ export class PresencaReuniaoService {
         );
       }
 
-      return foundReturn('Lista de presença encontrada com suecesso!', presenca);
+      return foundReturn(
+        'Lista de presença encontrada com suecesso!',
+        presenca,
+      );
     } catch (error) {
       return errorTryCatchReturn(error);
     }
   }
 
-  async update(id_reuniao: number, updatePresencaReuniaoDto: UpdatePresencaReuniaoDto) {
+  async update(
+    id_reuniao: number,
+    updatePresencaReuniaoDto: UpdatePresencaReuniaoDto,
+  ) {
     const presenca = await this.findOne(id_reuniao);
     if (presenca.status !== HttpStatus.OK) {
       return presenca;
@@ -62,6 +73,31 @@ export class PresencaReuniaoService {
       return updatedReturn(
         `Lista de presença de id da reunião ${id_reuniao} editada com sucesso`,
         presenca.dados,
+      );
+    } catch (error) {
+      return errorTryCatchReturn(error);
+    }
+  }
+
+  async retornaListadePresencaPorIdReuniao(id_reuniao: number[]) {
+    try {
+      const presenca = await this.presencaReuniaoEntity.findAll({
+        where: {
+          id_reuniao: {
+            [Op.in]: id_reuniao,
+          },
+        },
+      });
+
+      if (!presenca) {
+        return notFoundReturn(
+          `Nenhuma lista de presença foi encontrada no sistema!`,
+        );
+      }
+
+      return foundReturn(
+        'Listas de presenças encontradas com suecesso!',
+        presenca,
       );
     } catch (error) {
       return errorTryCatchReturn(error);
