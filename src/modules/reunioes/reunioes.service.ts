@@ -144,9 +144,13 @@ export class ReunioesService {
         return internalServerErrorReturn(null, `gerar dados de porcentagem`);
       }
 
+      const qtdReunioesTotal = await this.reuniaoEntity.count();
+
       const dadosRelatorio = {
-        qtdReunioesTotal: presencas.dados.length,
+        qtdReunioesConfirmadas: presencas.dados.length,
         dadosUsuarios: porcentagemPresenca,
+        qtdReunioesTotal,
+        qtdReunioesNaoConfirmadas: qtdReunioesTotal - presencas.dados.length,
       };
 
       return foundReturn(`Dados gerados com sucesso!`, dadosRelatorio);
