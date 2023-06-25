@@ -19,6 +19,7 @@ export class OrientacaoRitualisticaService {
   ){}
 
   async create(createOrientacaoRitualisticaDto: CreateOrientacaoRitualisticaDto): Promise<RetornoApi> {
+    createOrientacaoRitualisticaDto.ativo = true;
     try {
       const orientacaoRitualistica = await this.orientacaoRitualistica.create(createOrientacaoRitualisticaDto as any);
 

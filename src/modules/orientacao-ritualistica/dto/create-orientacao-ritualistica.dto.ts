@@ -15,6 +15,6 @@ export class CreateOrientacaoRitualisticaDto {
 
   @IsOptional()
   @IsBoolean()
-  ativo?: string;
+  ativo?: boolean;
 }
 
