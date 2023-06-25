@@ -30,7 +30,11 @@ export class OrientacaoRitualisticaService {
 
   async findAll(): Promise<RetornoApi> {
     try {
-      const orientacoesRitualisticas = await this.orientacaoRitualistica.findAll();
+      const orientacoesRitualisticas = await this.orientacaoRitualistica.findAll({
+        where: {
+          ativo: true
+        }
+      });
 
       if (!orientacoesRitualisticas.length) {
         return notFoundReturn(
