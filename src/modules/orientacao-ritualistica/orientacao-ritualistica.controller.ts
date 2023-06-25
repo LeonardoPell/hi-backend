@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpStatus, HttpException } from '@nestjs/common';
 import { OrientacaoRitualisticaService } from './orientacao-ritualistica.service';
 import { CreateOrientacaoRitualisticaDto } from './dto/create-orientacao-ritualistica.dto';
 import { UpdateOrientacaoRitualisticaDto } from './dto/update-orientacao-ritualistica.dto';
@@ -8,27 +8,46 @@ export class OrientacaoRitualisticaController {
   constructor(private readonly orientacaoRitualisticaService: OrientacaoRitualisticaService) {}
 
   @Post()
-  create(@Body() createOrientacaoRitualisticaDto: CreateOrientacaoRitualisticaDto) {
-    return this.orientacaoRitualisticaService.create(createOrientacaoRitualisticaDto);
+  async create(@Body() createOrientacaoRitualisticaDto: CreateOrientacaoRitualisticaDto) {
+    const orientacaoRitualistica = await this.orientacaoRitualisticaService.create(createOrientacaoRitualisticaDto);
+
+    if (orientacaoRitualistica.status !== HttpStatus.CREATED) {
+      throw new HttpException(orientacaoRitualistica, orientacaoRitualistica.status);
+    }
+
+    return orientacaoRitualistica;
   }
 
   @Get()
-  findAll() {
-    return this.orientacaoRitualisticaService.findAll();
+  async findAll() {
+    const orientacoesRitualisticas = await this.orientacaoRitualisticaService.findAll();
+
+    if (orientacoesRitualisticas.status !== HttpStatus.OK) {
+      throw new HttpException(orientacoesRitualisticas, orientacoesRitualisticas.status);
+    }
+
+    return orientacoesRitualisticas;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orientacaoRitualisticaService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const orientacaoRitualistica = await this.orientacaoRitualisticaService.findOne(+id);
+
+    if (orientacaoRitualistica.status !== HttpStatus.OK) {
+      throw new HttpException(orientacaoRitualistica, orientacaoRitualistica.status);
+    }
+
+    return orientacaoRitualistica;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrientacaoRitualisticaDto: UpdateOrientacaoRitualisticaDto) {
-    return this.orientacaoRitualisticaService.update(+id, updateOrientacaoRitualisticaDto);
-  }
+  async update(@Param('id') id: string, @Body() updateOrientacaoRitualisticaDto: UpdateOrientacaoRitualisticaDto) {
+    const orientacaoRitualistica = await this.orientacaoRitualisticaService.update(+id, updateOrientacaoRitualisticaDto);
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.orientacaoRitualisticaService.remove(+id);
+    if (orientacaoRitualistica.status !== HttpStatus.OK) {
+      throw new HttpException(orientacaoRitualistica, orientacaoRitualistica.status);
+    }
+
+    return orientacaoRitualistica;
   }
 }
