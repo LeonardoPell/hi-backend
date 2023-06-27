@@ -8,6 +8,7 @@ import { PalavraSemestralModule } from './modules/palavra_semestral/palavra_seme
 import { NivelObreiroModule } from './modules/nivel-obreiro/nivel-obreiro.module';
 import { ReunioesModule } from './modules/reunioes/reunioes.module';
 import { PresencaReuniaoModule } from './modules/presenca-reuniao/presenca-reuniao.module';
+import { OrientacaoRitualisticaModule } from './modules/orientacao-ritualistica/orientacao-ritualistica.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { PresencaReuniaoModule } from './modules/presenca-reuniao/presenca-reuni
     PalavraSemestralModule,
     NivelObreiroModule,
     ReunioesModule,
-    PresencaReuniaoModule
+    PresencaReuniaoModule,
+    OrientacaoRitualisticaModule
   ],
   controllers: [AppController],
   providers: [AppService],

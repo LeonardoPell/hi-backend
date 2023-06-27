@@ -96,4 +96,76 @@ export class Usuario extends Model<Usuario> {
   })
   @ForeignKey(() => NivelObreiro)
   nivel_obreiro: number;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  elevacao: Date;
+
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  exaltacao: Date;
+
+  @Column({
+    type: DataType.STRING(150),
+    allowNull: true,
+  })
+  ime: string;
+
+  @Column({
+    type: DataType.STRING(150),
+    allowNull: true,
+  })
+  grau: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  endereco_comercial: string;
+
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: true,
+  })
+  telefone_comercial: string;
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  endereco_residencial: string;
+
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: true,
+  })
+  telefone_residencial: string;
+
+  @Column({
+    type: DataType.STRING(150),
+    allowNull: true,
+  })
+  nome_pai: string;
+
+  @Column({
+    type: DataType.STRING(150),
+    allowNull: true,
+  })
+  nome_mae: string;
+
+  @Column({
+    type: DataType.STRING(150),
+    allowNull: true,
+  })
+  nome_esposa: string;
+
+  @Column({
+    type: DataType.ARRAY(DataType.STRING(150)),
+    allowNull: true,
+  })
+  filhos: string[];
 }
