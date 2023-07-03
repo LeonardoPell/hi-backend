@@ -26,6 +26,8 @@ export class FinanceiroService {
       createFinanceiroDto.data_pagamento = moment(
         createFinanceiroDto?.data_pagamento,
       ).format();
+    } else {
+      createFinanceiroDto.data_pagamento = null;
     }
     createFinanceiroDto.ano_mes_pagamento = moment(
       createFinanceiroDto.ano_mes_pagamento,
