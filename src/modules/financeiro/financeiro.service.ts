@@ -96,7 +96,18 @@ export class FinanceiroService {
         return notFoundReturn('Nenhuma entrada foi encontrada no sistema!');
       }
 
-      return foundReturn('Entradas encontradas com suecesso!', entradas);
+      let valorTotal = 0;
+
+      entradas.map((entrada) => {
+        valorTotal = valorTotal + entrada.valor;
+      });
+
+      return foundReturn('Entradas encontradas com suecesso!', {
+        relatorio: entradas,
+        dadosAdicionais: {
+          valorTotal: valorTotal,
+        },
+      });
     } catch (error) {
       return errorTryCatchReturn(error);
     }
@@ -120,7 +131,21 @@ export class FinanceiroService {
         return notFoundReturn('Nenhuma saida foi encontrada no sistema!');
       }
 
-      return foundReturn('Saidas encontradas com suecesso!', saidas);
+      const valorTotal = await this.financeiroSaidaEntity.sum('valor', {
+        where: {
+          ano_mes_pagamento: {
+            [Op.between]: [primeiroDiaDoMes, ultimoDiaDoMes],
+          },
+          ativo: true,
+        },
+      });
+
+      return foundReturn('Saidas encontradas com suecesso!', {
+        relatorio: saidas,
+        dadosAdicionais: {
+          valorTotal: valorTotal,
+        },
+      });
     } catch (error) {
       return errorTryCatchReturn(error);
     }
