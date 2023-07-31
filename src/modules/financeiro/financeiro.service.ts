@@ -96,10 +96,13 @@ export class FinanceiroService {
         return notFoundReturn('Nenhuma entrada foi encontrada no sistema!');
       }
 
-      let valorTotal = 0;
-
-      entradas.map((entrada) => {
-        valorTotal = valorTotal + entrada.valor;
+      const valorTotal = await this.financeiroEntradaEntity.sum('valor', {
+        where: {
+          ano_mes_pagamento: {
+            [Op.between]: [primeiroDiaDoMes, ultimoDiaDoMes],
+          },
+          ativo: true,
+        },
       });
 
       return foundReturn('Entradas encontradas com suecesso!', {
