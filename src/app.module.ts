@@ -9,6 +9,8 @@ import { NivelObreiroModule } from './modules/nivel-obreiro/nivel-obreiro.module
 import { ReunioesModule } from './modules/reunioes/reunioes.module';
 import { PresencaReuniaoModule } from './modules/presenca-reuniao/presenca-reuniao.module';
 import { OrientacaoRitualisticaModule } from './modules/orientacao-ritualistica/orientacao-ritualistica.module';
+import { FinanceiroModule } from './modules/financeiro/financeiro.module';
+import { FotosModule } from './modules/fotos/fotos.module';
 
 @Module({
   imports: [
@@ -19,7 +21,9 @@ import { OrientacaoRitualisticaModule } from './modules/orientacao-ritualistica/
     NivelObreiroModule,
     ReunioesModule,
     PresencaReuniaoModule,
-    OrientacaoRitualisticaModule
+    OrientacaoRitualisticaModule,
+    FinanceiroModule,
+    FotosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
