@@ -171,7 +171,21 @@ export class FinanceiroService {
         return notFoundReturn('Nenhuma entrada foi encontrada no sistema!');
       }
 
-      return foundReturn('Entradas encontradas com suecesso!', entradas);
+      const valorTotal = await this.financeiroEntradaEntity.sum('valor', {
+        where: {
+          ano_mes_pagamento: {
+            [Op.between]: [primeiroDiaDoAno, ultimoDiaDoAno],
+          },
+          ativo: true,
+        },
+      });
+
+      return foundReturn('Entradas encontradas com suecesso!', {
+        relatorio: entradas,
+        dadosAdicionais: {
+          valorTotal: valorTotal,
+        },
+      });
     } catch (error) {
       return errorTryCatchReturn(error);
     }
@@ -194,10 +208,58 @@ export class FinanceiroService {
         return notFoundReturn('Nenhuma saida foi encontrada no sistema!');
       }
 
-      return foundReturn('Saidas encontradas com suecesso!', saidas);
+      const valorTotal = await this.financeiroSaidaEntity.sum('valor', {
+        where: {
+          ano_mes_pagamento: {
+            [Op.between]: [primeiroDiaDoAno, ultimoDiaDoAno],
+          },
+          ativo: true,
+        },
+      });
+
+      return foundReturn('Saidas encontradas com suecesso!', {
+        relatorio: saidas,
+        dadosAdicionais: {
+          valorTotal: valorTotal,
+        },
+      });
     } catch (error) {
       return errorTryCatchReturn(error);
     }
+  }
+
+  async relacaoEntradaSaida(ano: number): Promise<RetornoApi> {
+    try {
+
+      const [entrada,saida] = await Promise.all([
+        this.findByYearEntrada(ano),
+        this.findByYearSaida(ano)
+      ]);
+
+      if (entrada.status !== HttpStatus.OK) {
+        return notFoundReturn('Nenhuma entrada foi encontrada no sistema!');
+      }
+
+      if (saida.status !== HttpStatus.OK) {
+        return notFoundReturn('Nenhuma saida foi encontrada no sistema!');
+      }
+
+      const dadosRetornados = {
+        entrada: entrada.dados,
+        saida: saida.dados,
+        dadosAdicionais: {
+          valorDiferenca: (entrada.dados.dadosAdicionais.valorTotal - saida.dados.dadosAdicionais.valorTotal).toFixed(2)
+        }
+      }
+
+      return foundReturn('Relação encontradas com suecesso!', {
+        relatorio: dadosRetornados
+      });
+      
+    } catch (error) {
+      return errorTryCatchReturn(error);
+    }
+
   }
 
   async findOneEntrada(id: number): Promise<RetornoApi> {

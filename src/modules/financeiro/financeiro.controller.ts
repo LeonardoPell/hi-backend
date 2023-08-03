@@ -80,6 +80,17 @@ export class FinanceiroController {
     return saidas;
   }
 
+  @Get('entrada/relacao/ano/:ano')
+  async relacaoEntradaSaida(@Param('ano') ano: string) {
+    const relacao = await this.financeiroService.relacaoEntradaSaida(+ano);
+
+    if (relacao.status !== HttpStatus.OK) {
+      throw new HttpException(relacao, relacao.status);
+    }
+
+    return relacao;
+  }
+
   @Get('entrada/ano/:ano')
   async findByYearEntrada(@Param('ano') ano: string) {
     const entradas = await this.financeiroService.findByYearEntrada(+ano);
