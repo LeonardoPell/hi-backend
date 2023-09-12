@@ -11,6 +11,7 @@ import { PresencaReuniaoModule } from './modules/presenca-reuniao/presenca-reuni
 import { OrientacaoRitualisticaModule } from './modules/orientacao-ritualistica/orientacao-ritualistica.module';
 import { FinanceiroModule } from './modules/financeiro/financeiro.module';
 import { FotosModule } from './modules/fotos/fotos.module';
+import { AtaReuniaoModule } from './modules/ata-reuniao/ata-reuniao.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { FotosModule } from './modules/fotos/fotos.module';
     OrientacaoRitualisticaModule,
     FinanceiroModule,
     FotosModule,
+    AtaReuniaoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
